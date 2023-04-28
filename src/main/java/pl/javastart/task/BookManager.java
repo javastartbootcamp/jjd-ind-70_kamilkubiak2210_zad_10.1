@@ -3,29 +3,20 @@ package pl.javastart.task;
 import java.util.Scanner;
 
 public class BookManager extends Book {
-    private final Book[] books = new Book[3];
     private final Scanner scanner = new Scanner(System.in);
-    private int counter = 0;
 
     public Book[] createAndAddBooks() {
+        Book[] books = new Book[3];
+        int counter = 0;
         while (counter < books.length) {
             Book book = createBook();
-            boolean unique = isUnique(book);
-
-            for (int i = 0; i < counter; i++) {
-                if (books[i].equals(book)) {
-                    System.out.println("duplikat");
-                    unique = false;
-                    break;
-                }
-            }
-
-            if (unique) {
+            if (isUnique(book, books, counter)) {
                 books[counter] = book;
                 counter++;
+            } else {
+                System.out.println("duplikat");
             }
         }
-
         return books;
     }
 
@@ -47,8 +38,14 @@ public class BookManager extends Book {
         }
     }
 
-    public boolean isUnique(Book book) {
+    public boolean isUnique(Book book, Book[] books, int counter) {
+        for (int i = 0; i < counter; i++) {
+            if (books[i].equals(book)) {
+                return false;
+            }
+        }
         return true;
     }
-
 }
+
+
